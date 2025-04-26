@@ -1,0 +1,18 @@
+import { mysqlTable, serial, varchar } from 'drizzle-orm/mysql-core';
+import { relations } from 'drizzle-orm';
+import * as t from './schema';
+
+export const users = mysqlTable('users', {
+  id: serial().primaryKey().autoincrement(),
+  firstName: varchar('first_name', { length: 100 }).notNull(),
+  lastName: varchar('last_name', { length: 100 }).notNull(),
+  email: varchar({ length: 50 }).notNull().unique(),
+  phone: varchar({ length: 20 }).notNull().unique(),
+});
+
+export const usersRelations = relations(users, ({ one }) => ({
+  staff: one(t.staff, {
+    fields: [users.id],
+    references: [t.staff.id],
+  }),
+}));

@@ -1,0 +1,16 @@
+import { mysqlTable, integer } from 'drizzle-orm/mysql-core';
+import { relations } from 'drizzle-orm';
+import * as t from './schema';
+
+export const guests = mysqlTable('guests', {
+  id: integer('id')
+    .primaryKey()
+    .references(() => t.users.id),
+});
+
+export const guestsRelations = relations(guests, ({ one }) => ({
+  user: one(t.users, {
+    fields: [guests.id],
+    references: [t.users.id],
+  }),
+}));
