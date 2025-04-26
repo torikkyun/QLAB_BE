@@ -7,6 +7,7 @@ import { loans } from './loans.js';
 import { projects } from './projects.js';
 import { loanDetails } from './loan-details.js';
 import { projectMembers } from './project-members.js';
+import { deviceStatus } from './device-status.js';
 
 export {
   users,
@@ -18,4 +19,5 @@ export {
   projects,
   loanDetails,
   projectMembers,
+  deviceStatus,
 };
