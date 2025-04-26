@@ -1,6 +1,6 @@
 import { mysqlTable, int, varchar } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
-import * as t from './schema';
+import * as t from './schema.js';
 
 export const roles = mysqlTable('roles', {
   id: int().primaryKey().autoincrement(),

@@ -1,6 +1,6 @@
 import { mysqlTable, varchar, int } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
-import * as t from './schema';
+import * as t from './schema.js';
 
 export const devices = mysqlTable('devices', {
   id: int().primaryKey().autoincrement(),
@@ -11,8 +11,8 @@ export const devices = mysqlTable('devices', {
 });
 
 export const devicesRelations = relations(devices, ({ many }) => ({
-  loanDetails: many(t.staff, {
+  loanDetails: many(t.loanDetails, {
     fields: [devices.id],
-    references: [t.staff.id],
+    references: [t.loanDetails.deviceId],
   }),
 }));

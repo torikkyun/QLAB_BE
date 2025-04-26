@@ -1,6 +1,6 @@
 import { mysqlTable, int, boolean, primaryKey } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
-import * as t from './schema';
+import * as t from './schema.js';
 
 export const projectMembers = mysqlTable(
   'project_members',
