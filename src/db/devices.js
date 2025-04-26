@@ -1,12 +1,12 @@
-import { mysqlTable, serial, varchar, integer } from 'drizzle-orm/mysql-core';
+import { mysqlTable, varchar, int } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
 import * as t from './schema';
 
 export const devices = mysqlTable('devices', {
-  id: serial().primaryKey().autoincrement(),
+  id: int().primaryKey().autoincrement(),
   name: varchar({ length: 50 }).notNull(),
   code: varchar({ length: 50 }).notNull(),
-  cost: integer().notNull(),
+  cost: int().notNull(),
   description: varchar({ length: 255 }),
 });
 

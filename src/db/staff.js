@@ -1,15 +1,15 @@
-import { mysqlTable, integer, varchar } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
 import * as t from './schema';
 
 export const staff = mysqlTable('staff', {
-  id: integer('id')
+  id: int()
     .primaryKey()
     .references(() => t.users.id),
-  roleId: integer('role_id')
-    .references(() => t.roles.id)
-    .notNull(),
-  password: varchar('password', { length: 255 }).notNull(),
+  roleId: int('role_id')
+    .notNull()
+    .references(() => t.roles.id),
+  password: varchar({ length: 255 }).notNull(),
 });
 
 export const staffRelations = relations(staff, ({ one }) => ({

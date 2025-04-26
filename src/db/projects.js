@@ -1,11 +1,11 @@
-import { mysqlTable, serial, varchar } from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, varchar, date } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
 import * as t from './schema';
 
 export const projects = mysqlTable('projects', {
-  id: serial().primaryKey().autoincrement(),
-  startDate: varchar('start_date', { length: 100 }).notNull(),
-  endDate: varchar('end_date', { length: 100 }).notNull(),
+  id: int().primaryKey().autoincrement(),
+  startDate: date('start_date').notNull(),
+  endDate: date('end_date').notNull(),
   name: varchar({ length: 100 }).notNull(),
   description: varchar({ length: 255 }),
 });

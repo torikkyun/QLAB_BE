@@ -1,24 +1,19 @@
-import {
-  mysqlTable,
-  integer,
-  boolean,
-  primaryKey,
-} from 'drizzle-orm/mysql-core';
+import { mysqlTable, int, boolean, primaryKey } from 'drizzle-orm/mysql-core';
 import { relations } from 'drizzle-orm';
 import * as t from './schema';
 
 export const projectMembers = mysqlTable(
   'project_members',
   {
-    userId: integer('user_id')
+    userId: int('user_id')
       .notNull()
       .references(() => t.users.id),
-    projectId: integer('group_id')
+    projectId: int('project_id')
       .notNull()
       .references(() => t.projects.id),
     isManager: boolean('is_manager').notNull(),
   },
-  (t) => [primaryKey({ columns: [t.userId, t.groupId] })],
+  (t) => [primaryKey({ columns: [t.userId, t.projectId] })],
 );
 
 export const projectMembersRelations = relations(projectMembers, ({ one }) => ({
@@ -27,7 +22,7 @@ export const projectMembersRelations = relations(projectMembers, ({ one }) => ({
     references: [t.projects.id],
   }),
   user: one(t.users, {
-    fields: [t.users.userId],
+    fields: [projectMembers.userId],
     references: [t.users.id],
   }),
 }));

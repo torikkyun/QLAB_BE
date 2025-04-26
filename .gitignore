@@ -1,5 +1,6 @@
 # custom
 *.tar
+mysql_data
 
 # compiled output
 /dist
