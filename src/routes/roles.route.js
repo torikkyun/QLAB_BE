@@ -7,7 +7,7 @@ import { authorizeRoles } from '../middlewares/authorizeRoles.js';
 
 const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
-router.use(authorizeRoles(1));
+router.use(authorizeRoles('Admin'));
 
 router.get('/', async (req, res) => {
   const result = await rolesController.getAllRole();
@@ -15,12 +15,8 @@ router.get('/', async (req, res) => {
 });
 
 router.post('/', validate(createRoleSchema), async (req, res) => {
-  try {
-    const result = await rolesController.createRole(req.body);
-    res.json(result);
-  } catch (error) {
-    res.status(409).json({ message: error.message });
-  }
+  const result = await rolesController.createRole(req.body);
+  res.json(result);
 });
 
 router.patch('/:roleId', async (req, res) => {
@@ -29,8 +25,8 @@ router.patch('/:roleId', async (req, res) => {
 });
 
 router.delete('/:roleId', async (req, res) => {
-  await rolesController.deleteRole(req.params);
-  res.sendStatus(204);
+  const result = await rolesController.deleteRole(req.params);
+  res.json(result);
 });
 
 export default router;

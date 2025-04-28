@@ -1,7 +1,7 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "fbf230ac-9315-4024-a975-9bb27171062a",
+  "id": "bb8af7f8-94a6-4253-ad88-78600d5447ed",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
     "device_status": {
@@ -115,8 +115,8 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
-    "loan_details": {
-      "name": "loan_details",
+    "loans": {
+      "name": "loans",
       "columns": {
         "user_id": {
           "name": "user_id",
@@ -125,8 +125,8 @@
           "notNull": true,
           "autoincrement": false
         },
-        "group_id": {
-          "name": "group_id",
+        "device_id": {
+          "name": "device_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
@@ -143,87 +143,7 @@
           "name": "date_returned",
           "type": "date",
           "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "actual_returned": {
-          "name": "actual_returned",
-          "type": "date",
-          "primaryKey": false,
           "notNull": false,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "loan_details_user_id_users_id_fk": {
-          "name": "loan_details_user_id_users_id_fk",
-          "tableFrom": "loan_details",
-          "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "loan_details_group_id_projects_id_fk": {
-          "name": "loan_details_group_id_projects_id_fk",
-          "tableFrom": "loan_details",
-          "tableTo": "projects",
-          "columnsFrom": [
-            "group_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "loan_details_user_id_group_id_pk": {
-          "name": "loan_details_user_id_group_id_pk",
-          "columns": [
-            "user_id",
-            "group_id"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "checkConstraint": {}
-    },
-    "loans": {
-      "name": "loans",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": true
-        },
-        "user_id": {
-          "name": "user_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "loan_at": {
-          "name": "loan_at",
-          "type": "date",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "loan_amount": {
-          "name": "loan_amount",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
           "autoincrement": false
         },
         "description": {
@@ -248,16 +168,22 @@
           ],
           "onDelete": "no action",
           "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "loans_id": {
-          "name": "loans_id",
-          "columns": [
+        },
+        "loans_device_id_devices_id_fk": {
+          "name": "loans_device_id_devices_id_fk",
+          "tableFrom": "loans",
+          "tableTo": "devices",
+          "columnsFrom": [
+            "device_id"
+          ],
+          "columnsTo": [
             "id"
-          ]
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
         }
       },
+      "compositePrimaryKeys": {},
       "uniqueConstraints": {},
       "checkConstraint": {}
     },

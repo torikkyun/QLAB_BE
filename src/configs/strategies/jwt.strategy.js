@@ -12,8 +12,13 @@ const opts = {
 export const jwtStrategy = new JwtStrategy(opts, async (jwt_payload, done) => {
   try {
     const [user] = await db
-      .select()
+      .select({
+        id: t.users.id,
+        email: t.users.email,
+        roleName: t.roles.name,
+      })
       .from(t.users)
+      .leftJoin(t.roles, eq(t.users.roleId, t.roles.id))
       .where(eq(t.users.id, jwt_payload.id));
     if (user) {
       return done(null, user);

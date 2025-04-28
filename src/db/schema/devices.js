@@ -14,9 +14,9 @@ export const devices = mysqlTable('devices', {
 });
 
 export const devicesRelations = relations(devices, ({ one, many }) => ({
-  loanDetails: many(t.loanDetails, {
+  loans: many(t.loans, {
     fields: [devices.id],
-    references: [t.loanDetails.deviceId],
+    references: [t.loans.deviceId],
   }),
   statusDevice: one(t.deviceStatus, {
     fields: [devices.statusId],

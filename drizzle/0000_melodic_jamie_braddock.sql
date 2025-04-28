@@ -15,22 +15,12 @@ CREATE TABLE `devices` (
 	CONSTRAINT `devices_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
-CREATE TABLE `loan_details` (
-	`user_id` int NOT NULL,
-	`group_id` int NOT NULL,
-	`date_received` date NOT NULL,
-	`date_returned` date NOT NULL,
-	`actual_returned` date,
-	CONSTRAINT `loan_details_user_id_group_id_pk` PRIMARY KEY(`user_id`,`group_id`)
-);
---> statement-breakpoint
 CREATE TABLE `loans` (
-	`id` int AUTO_INCREMENT NOT NULL,
 	`user_id` int NOT NULL,
-	`loan_at` date NOT NULL,
-	`loan_amount` int NOT NULL,
-	`description` varchar(255),
-	CONSTRAINT `loans_id` PRIMARY KEY(`id`)
+	`device_id` int NOT NULL,
+	`date_received` date NOT NULL,
+	`date_returned` date,
+	`description` varchar(255)
 );
 --> statement-breakpoint
 CREATE TABLE `project_members` (
@@ -70,9 +60,8 @@ CREATE TABLE `users` (
 );
 --> statement-breakpoint
 ALTER TABLE `devices` ADD CONSTRAINT `devices_status_id_device_status_id_fk` FOREIGN KEY (`status_id`) REFERENCES `device_status`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `loan_details` ADD CONSTRAINT `loan_details_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
-ALTER TABLE `loan_details` ADD CONSTRAINT `loan_details_group_id_projects_id_fk` FOREIGN KEY (`group_id`) REFERENCES `projects`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `loans` ADD CONSTRAINT `loans_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `loans` ADD CONSTRAINT `loans_device_id_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `project_members` ADD CONSTRAINT `project_members_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `project_members` ADD CONSTRAINT `project_members_project_id_projects_id_fk` FOREIGN KEY (`project_id`) REFERENCES `projects`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `users` ADD CONSTRAINT `users_role_id_roles_id_fk` FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE no action ON UPDATE no action;

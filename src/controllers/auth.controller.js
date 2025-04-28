@@ -8,8 +8,14 @@ import { usersController } from './users.controller.js';
 async function login(body) {
   const { email, password } = body;
   const [user] = await db
-    .select()
+    .select({
+      id: t.users.id,
+      email: t.users.email,
+      password: t.users.password,
+      roleName: t.roles.name,
+    })
     .from(t.users)
+    .leftJoin(t.roles, eq(t.users.roleId, t.roles.id))
     .where(eq(t.users.email, email));
 
   if (!user) {
@@ -23,7 +29,7 @@ async function login(body) {
   const payload = {
     id: user.id,
     email: user.email,
-    roleId: user.roleId,
+    roleName: user.roleName,
   };
 
   // eslint-disable-next-line no-undef

@@ -29,22 +29,16 @@ async function createUser(body) {
       .$returningId();
     return await getUserById({ userId: user.id });
   } catch (error) {
-    return { message: error };
+    return { message: error.message };
   }
 }
 
 async function updateUser(params, body) {
-  const { ...rest } = body;
   try {
-    await db
-      .update(t.users)
-      .set({
-        ...rest,
-      })
-      .where(eq(t.users.id, params.userId));
+    await db.update(t.users).set(body).where(eq(t.users.id, params.userId));
     return await getUserById(params);
   } catch (error) {
-    return { message: error };
+    return { message: error.message };
   }
 }
 
