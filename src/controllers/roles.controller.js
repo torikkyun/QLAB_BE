@@ -2,7 +2,7 @@ import db from '../db/db.js';
 import { eq } from 'drizzle-orm';
 import * as t from '../db/schema/schema.js';
 
-async function getAllRole() {
+async function getAllRoles() {
   return await db.select().from(t.roles);
 }
 
@@ -45,7 +45,7 @@ async function deleteRole(params) {
 }
 
 export const rolesController = {
-  getAllRole,
+  getAllRoles,
   getRoleById,
   createRole,
   updateRole,

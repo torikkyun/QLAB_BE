@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
 
 router.get('/', async (req, res) => {
-  const result = await usersController.getAllUser();
+  const result = await usersController.getAllUsers();
   res.json(result);
 });
 

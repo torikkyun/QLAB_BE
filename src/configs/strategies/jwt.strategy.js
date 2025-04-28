@@ -20,6 +20,7 @@ export const jwtStrategy = new JwtStrategy(opts, async (jwt_payload, done) => {
       .from(t.users)
       .leftJoin(t.roles, eq(t.users.roleId, t.roles.id))
       .where(eq(t.users.id, jwt_payload.id));
+    console.log(user);
     if (user) {
       return done(null, user);
     } else {

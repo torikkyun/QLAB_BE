@@ -3,7 +3,7 @@ import * as t from '../db/schema/schema.js';
 import { eq } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
-async function getAllUser() {
+async function getAllUsers() {
   return await db.select().from(t.users);
 }
 
@@ -48,7 +48,7 @@ async function deleteUser(params) {
 }
 
 export const usersController = {
-  getAllUser,
+  getAllUsers,
   getUserById,
   createUser,
   updateUser,

@@ -2,6 +2,7 @@ import express from 'express';
 import authRoute from './auth.route.js';
 import rolesRoute from './roles.route.js';
 import usersRoute from './users.route.js';
+import projectRoute from './projects.route.js';
 
 const router = express.Router();
 
@@ -17,6 +18,10 @@ const defaultRoutes = [
   {
     path: '/users',
     route: usersRoute,
+  },
+  {
+    path: '/projects',
+    route: projectRoute,
   },
 ];
 
