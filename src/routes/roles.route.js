@@ -1,56 +1,20 @@
 import express from 'express';
 import { rolesController } from '../controllers/roles.controller.js';
-import { validateRole } from '../middlewares/validations/roles.validation.js';
+import { createRoleSchema } from '../middlewares/validations/roles.validation.js';
+import { validate } from '../middlewares/validations/validate.js';
+import passport from 'passport';
+import { authorizeRoles } from '../middlewares/authorizeRoles.js';
 
 const router = express.Router();
+router.use(passport.authenticate('jwt', { session: false }));
+router.use(authorizeRoles(1));
 
-/**
- * @openapi
- * tags:
- *   name: roles
- */
-
-/**
- * @openapi
- * /api/roles:
- *   get:
- *     tags: [roles]
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- */
 router.get('/', async (req, res) => {
   const result = await rolesController.getAllRole();
   res.json(result);
 });
 
-/**
- * @openapi
- * /api/roles:
- *   post:
- *     tags: [roles]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             required:
- *               - name
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- */
-router.post('/', validateRole, async (req, res) => {
+router.post('/', validate(createRoleSchema), async (req, res) => {
   try {
     const result = await rolesController.createRole(req.body);
     res.json(result);
@@ -59,54 +23,12 @@ router.post('/', validateRole, async (req, res) => {
   }
 });
 
-/**
- * @openapi
- * /api/roles/{id}:
- *   patch:
- *     tags: [roles]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             properties:
- *               name:
- *                 type: string
- *               description:
- *                 type: string
- *     responses:
- *       200:
- *         content:
- *           application/json:
- *             schema:
- */
-router.patch('/:id', async (req, res) => {
+router.patch('/:roleId', async (req, res) => {
   const result = await rolesController.updateRole(req.params, req.body);
   res.json(result);
 });
 
-/**
- * @openapi
- * /api/roles/{id}:
- *   delete:
- *     tags: [roles]
- *     parameters:
- *       - name: id
- *         in: path
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       204:
- *         description: Xóa role thành công
- */
-router.delete('/:id', async (req, res) => {
+router.delete('/:roleId', async (req, res) => {
   await rolesController.deleteRole(req.params);
   res.sendStatus(204);
 });

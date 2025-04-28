@@ -9,7 +9,7 @@ export const deviceStatus = mysqlTable('device_status', {
 });
 
 export const deviceStatusRelations = relations(deviceStatus, ({ many }) => ({
-  device: many(t.staff, {
+  devices: many(t.devices, {
     fields: [deviceStatus.id],
     references: [t.devices.statusId],
   }),

@@ -1,11 +1,30 @@
 import express from 'express';
-import { getAllUser } from '../controllers/users.controller.js';
+import { validate } from '../middlewares/validations/validate.js';
+import passport from 'passport';
+import { usersController } from '../controllers/users.controller.js';
+import { updateUserSchema } from '../middlewares/validations/users.validation.js';
 
 const router = express.Router();
+router.use(passport.authenticate('jwt', { session: false }));
 
-router.get('/', (req, res) => {
-  const users = getAllUser();
-  res.json(users);
+router.get('/', async (req, res) => {
+  const result = await usersController.getAllUser();
+  res.json(result);
+});
+
+router.get('/:userId', async (req, res) => {
+  const result = await usersController.getUserById(req.params);
+  res.json(result);
+});
+
+router.patch('/:userId', validate(updateUserSchema), async (req, res) => {
+  const result = await usersController.updateUser(req.params, req.body);
+  res.json(result);
+});
+
+router.delete('/:userId', async (req, res) => {
+  const result = await usersController.deleteUser(req.params);
+  res.json(result);
 });
 
 export default router;

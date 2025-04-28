@@ -4,9 +4,9 @@ import * as t from './schema.js';
 
 export const projects = mysqlTable('projects', {
   id: int().primaryKey().autoincrement(),
+  name: varchar({ length: 100 }).notNull(),
   startDate: date('start_date').notNull(),
   endDate: date('end_date').notNull(),
-  name: varchar({ length: 100 }).notNull(),
   description: varchar({ length: 255 }),
 });
 

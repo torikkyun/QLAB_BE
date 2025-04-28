@@ -1,9 +1,47 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "3a6bc3cf-5bc8-4360-ad28-f70b2e3cb0e4",
+  "id": "fbf230ac-9315-4024-a975-9bb27171062a",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
+    "device_status": {
+      "name": "device_status",
+      "columns": {
+        "id": {
+          "name": "id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": true
+        },
+        "name": {
+          "name": "name",
+          "type": "varchar(50)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
+        "description": {
+          "name": "description",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        }
+      },
+      "indexes": {},
+      "foreignKeys": {},
+      "compositePrimaryKeys": {
+        "device_status_id": {
+          "name": "device_status_id",
+          "columns": [
+            "id"
+          ]
+        }
+      },
+      "uniqueConstraints": {},
+      "checkConstraint": {}
+    },
     "devices": {
       "name": "devices",
       "columns": {
@@ -41,26 +79,9 @@
           "primaryKey": false,
           "notNull": false,
           "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {},
-      "compositePrimaryKeys": {
-        "devices_id": {
-          "name": "devices_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "checkConstraint": {}
-    },
-    "guests": {
-      "name": "guests",
-      "columns": {
-        "id": {
-          "name": "id",
+        },
+        "status_id": {
+          "name": "status_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
@@ -69,12 +90,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "guests_id_users_id_fk": {
-          "name": "guests_id_users_id_fk",
-          "tableFrom": "guests",
-          "tableTo": "users",
+        "devices_status_id_device_status_id_fk": {
+          "name": "devices_status_id_device_status_id_fk",
+          "tableFrom": "devices",
+          "tableTo": "device_status",
           "columnsFrom": [
-            "id"
+            "status_id"
           ],
           "columnsTo": [
             "id"
@@ -84,8 +105,8 @@
         }
       },
       "compositePrimaryKeys": {
-        "guests_id": {
-          "name": "guests_id",
+        "devices_id": {
+          "name": "devices_id",
           "columns": [
             "id"
           ]
@@ -184,15 +205,8 @@
           "notNull": true,
           "autoincrement": true
         },
-        "staff_id": {
-          "name": "staff_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "guest_id": {
-          "name": "guest_id",
+        "user_id": {
+          "name": "user_id",
           "type": "int",
           "primaryKey": false,
           "notNull": true,
@@ -222,25 +236,12 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "loans_staff_id_staff_id_fk": {
-          "name": "loans_staff_id_staff_id_fk",
+        "loans_user_id_users_id_fk": {
+          "name": "loans_user_id_users_id_fk",
           "tableFrom": "loans",
-          "tableTo": "staff",
+          "tableTo": "users",
           "columnsFrom": [
-            "staff_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "loans_guest_id_guests_id_fk": {
-          "name": "loans_guest_id_guests_id_fk",
-          "tableFrom": "loans",
-          "tableTo": "guests",
-          "columnsFrom": [
-            "guest_id"
+            "user_id"
           ],
           "columnsTo": [
             "id"
@@ -336,6 +337,13 @@
           "notNull": true,
           "autoincrement": true
         },
+        "name": {
+          "name": "name",
+          "type": "varchar(100)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
+        },
         "start_date": {
           "name": "start_date",
           "type": "date",
@@ -346,13 +354,6 @@
         "end_date": {
           "name": "end_date",
           "type": "date",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "name": {
-          "name": "name",
-          "type": "varchar(100)",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
@@ -416,71 +417,6 @@
       "uniqueConstraints": {},
       "checkConstraint": {}
     },
-    "staff": {
-      "name": "staff",
-      "columns": {
-        "id": {
-          "name": "id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "role_id": {
-          "name": "role_id",
-          "type": "int",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        },
-        "password": {
-          "name": "password",
-          "type": "varchar(255)",
-          "primaryKey": false,
-          "notNull": true,
-          "autoincrement": false
-        }
-      },
-      "indexes": {},
-      "foreignKeys": {
-        "staff_id_users_id_fk": {
-          "name": "staff_id_users_id_fk",
-          "tableFrom": "staff",
-          "tableTo": "users",
-          "columnsFrom": [
-            "id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        },
-        "staff_role_id_roles_id_fk": {
-          "name": "staff_role_id_roles_id_fk",
-          "tableFrom": "staff",
-          "tableTo": "roles",
-          "columnsFrom": [
-            "role_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
-          "onDelete": "no action",
-          "onUpdate": "no action"
-        }
-      },
-      "compositePrimaryKeys": {
-        "staff_id": {
-          "name": "staff_id",
-          "columns": [
-            "id"
-          ]
-        }
-      },
-      "uniqueConstraints": {},
-      "checkConstraint": {}
-    },
     "users": {
       "name": "users",
       "columns": {
@@ -490,6 +426,13 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": true
+        },
+        "role_id": {
+          "name": "role_id",
+          "type": "int",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         },
         "first_name": {
           "name": "first_name",
@@ -518,10 +461,31 @@
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false
+        },
+        "password": {
+          "name": "password",
+          "type": "varchar(255)",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {},
-      "foreignKeys": {},
+      "foreignKeys": {
+        "users_role_id_roles_id_fk": {
+          "name": "users_role_id_roles_id_fk",
+          "tableFrom": "users",
+          "tableTo": "roles",
+          "columnsFrom": [
+            "role_id"
+          ],
+          "columnsTo": [
+            "id"
+          ],
+          "onDelete": "no action",
+          "onUpdate": "no action"
+        }
+      },
       "compositePrimaryKeys": {
         "users_id": {
           "name": "users_id",

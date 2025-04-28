@@ -9,8 +9,8 @@ export const roles = mysqlTable('roles', {
 });
 
 export const rolesRelations = relations(roles, ({ many }) => ({
-  staff: many(t.staff, {
+  users: many(t.users, {
     fields: [roles.id],
-    references: [t.staff.roleId],
+    references: [t.users.roleId],
   }),
 }));
