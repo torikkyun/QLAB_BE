@@ -1,11 +1,11 @@
 {
   "version": "5",
   "dialect": "mysql",
-  "id": "bb8af7f8-94a6-4253-ad88-78600d5447ed",
+  "id": "25f6e1c9-349a-4142-a52a-5fb33c6a4eac",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "tables": {
-    "device_status": {
-      "name": "device_status",
+    "device_statuses": {
+      "name": "device_statuses",
       "columns": {
         "id": {
           "name": "id",
@@ -32,8 +32,8 @@
       "indexes": {},
       "foreignKeys": {},
       "compositePrimaryKeys": {
-        "device_status_id": {
-          "name": "device_status_id",
+        "device_statuses_id": {
+          "name": "device_statuses_id",
           "columns": [
             "id"
           ]
@@ -90,10 +90,10 @@
       },
       "indexes": {},
       "foreignKeys": {
-        "devices_status_id_device_status_id_fk": {
-          "name": "devices_status_id_device_status_id_fk",
+        "devices_status_id_device_statuses_id_fk": {
+          "name": "devices_status_id_device_statuses_id_fk",
           "tableFrom": "devices",
-          "tableTo": "device_status",
+          "tableTo": "device_statuses",
           "columnsFrom": [
             "status_id"
           ],

@@ -9,7 +9,7 @@ export const devices = mysqlTable('devices', {
   cost: int().notNull(),
   description: varchar({ length: 255 }),
   statusId: int('status_id')
-    .references(() => t.deviceStatus.id)
+    .references(() => t.deviceStatuses.id)
     .notNull(),
 });
 
@@ -18,8 +18,8 @@ export const devicesRelations = relations(devices, ({ one, many }) => ({
     fields: [devices.id],
     references: [t.loans.deviceId],
   }),
-  statusDevice: one(t.deviceStatus, {
+  statusDevice: one(t.deviceStatuses, {
     fields: [devices.statusId],
-    references: [t.deviceStatus.id],
+    references: [t.deviceStatuses.id],
   }),
 }));

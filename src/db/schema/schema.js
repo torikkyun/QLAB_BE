@@ -4,6 +4,14 @@ import { devices } from './devices.js';
 import { loans } from './loans.js';
 import { projects } from './projects.js';
 import { projectMembers } from './project-members.js';
-import { deviceStatus } from './device-status.js';
+import { deviceStatuses } from './device-statuses.js';
 
-export { users, roles, devices, loans, projects, projectMembers, deviceStatus };
+export {
+  users,
+  roles,
+  devices,
+  loans,
+  projects,
+  projectMembers,
+  deviceStatuses,
+};

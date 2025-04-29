@@ -3,7 +3,7 @@ import db from './db.js';
 import * as t from './schema/schema.js';
 import bcrypt from 'bcryptjs';
 
-async function seedAdminUser() {
+async function seedData() {
   const hash = bcrypt.hashSync('123456', 10);
 
   const [adminRole] = await db
@@ -32,10 +32,35 @@ async function seedAdminUser() {
     .$returningId();
 
   console.log('Admin user seeded successfully');
+
+  await db.insert(t.deviceStatuses).values([
+    {
+      name: 'Available',
+      description: 'Device is available for use',
+    },
+    {
+      name: 'In Use',
+      description: 'Device is currently being used',
+    },
+    {
+      name: 'Maintenance',
+      description: 'Device is under maintenance',
+    },
+    {
+      name: 'Broken',
+      description: 'Device is broken and needs repair',
+    },
+    {
+      name: 'Lost',
+      description: 'Device is lost',
+    },
+  ]);
+
+  console.log('Device statuses seeded successfully');
   process.exit(0);
 }
 
-seedAdminUser().catch((error) => {
-  console.error('Error seeding admin user:', error);
+seedData().catch((error) => {
+  console.error('Error seeding data:', error);
   process.exit(1);
 });

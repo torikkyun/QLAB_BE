@@ -1,8 +1,8 @@
-CREATE TABLE `device_status` (
+CREATE TABLE `device_statuses` (
 	`id` int AUTO_INCREMENT NOT NULL,
 	`name` varchar(50) NOT NULL,
 	`description` varchar(255),
-	CONSTRAINT `device_status_id` PRIMARY KEY(`id`)
+	CONSTRAINT `device_statuses_id` PRIMARY KEY(`id`)
 );
 --> statement-breakpoint
 CREATE TABLE `devices` (
@@ -59,7 +59,7 @@ CREATE TABLE `users` (
 	CONSTRAINT `users_phone_unique` UNIQUE(`phone`)
 );
 --> statement-breakpoint
-ALTER TABLE `devices` ADD CONSTRAINT `devices_status_id_device_status_id_fk` FOREIGN KEY (`status_id`) REFERENCES `device_status`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
+ALTER TABLE `devices` ADD CONSTRAINT `devices_status_id_device_statuses_id_fk` FOREIGN KEY (`status_id`) REFERENCES `device_statuses`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `loans` ADD CONSTRAINT `loans_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `loans` ADD CONSTRAINT `loans_device_id_devices_id_fk` FOREIGN KEY (`device_id`) REFERENCES `devices`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
 ALTER TABLE `project_members` ADD CONSTRAINT `project_members_user_id_users_id_fk` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE no action ON UPDATE no action;--> statement-breakpoint
