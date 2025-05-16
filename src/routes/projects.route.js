@@ -3,7 +3,10 @@ import passport from 'passport';
 import { authorizeRoles } from '../middlewares/authorizeRoles.js';
 import { validate } from '../middlewares/validations/validate.js';
 import { projectsController } from '../controllers/projects.controller.js';
-import { createProjectSchema } from '../middlewares/validations/projects.validation.js';
+import {
+  createProjectSchema,
+  updateProjectSchema,
+} from '../middlewares/validations/projects.validation.js';
 import { projectMembersController } from '../controllers/project-members.controller.js';
 import {
   addMultipleProjectMembersSchema,
@@ -36,7 +39,7 @@ router.post(
 router.patch(
   '/:projectId',
   authorizeRoles('Admin'),
-  validate(createProjectSchema),
+  validate(updateProjectSchema),
   async (req, res) => {
     const result = await projectsController.updateProject(req.params, req.body);
     res.json(result);
