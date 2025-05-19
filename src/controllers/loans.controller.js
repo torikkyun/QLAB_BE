@@ -1,6 +1,6 @@
 import db from '../db/db.js';
 import * as t from '../db/schema/schema.js';
-import { eq, and, isNull } from 'drizzle-orm';
+import { eq, and, isNull, isNotNull, count } from 'drizzle-orm';
 
 async function getAllLoans() {
   return await db
@@ -199,9 +199,34 @@ async function returnDevices(body) {
   }
 }
 
+async function getLoanStatistics() {
+  try {
+    const [totalLoans] = await db.select({ count: count() }).from(t.loans);
+
+    const [unreturned] = await db
+      .select({ count: count() })
+      .from(t.loans)
+      .where(isNull(t.loans.dateReturned));
+
+    const [returned] = await db
+      .select({ count: count() })
+      .from(t.loans)
+      .where(isNotNull(t.loans.dateReturned));
+
+    return {
+      totalLoans: totalLoans.count,
+      unreturnedLoans: unreturned.count,
+      returnedLoans: returned.count,
+    };
+  } catch (error) {
+    return { message: error.message };
+  }
+}
+
 export const loansController = {
   getAllLoans,
   getLoansByUserId,
   borrowDevices,
   returnDevices,
+  getLoanStatistics,
 };

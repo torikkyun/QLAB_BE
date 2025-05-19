@@ -15,6 +15,15 @@ router.get('/', async (req, res) => {
   res.json(result);
 });
 
+router.get('/statistics', async (req, res, next) => {
+  await loansController
+    .getLoanStatistics()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(next);
+});
+
 router.get('/:userId', async (req, res) => {
   const result = await loansController.getLoansByUserId(req.params);
   res.json(result);

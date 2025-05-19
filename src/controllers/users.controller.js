@@ -1,6 +1,6 @@
 import db from '../db/db.js';
 import * as t from '../db/schema/schema.js';
-import { eq } from 'drizzle-orm';
+import { eq, count, isNull } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
 async function getAllUsers() {
@@ -47,10 +47,31 @@ async function deleteUser(params) {
   return { message: 'User deleted' };
 }
 
+async function getUserStatistics() {
+  try {
+    const [totalUsers] = await db.select({ count: count() }).from(t.users);
+
+    const [borrowingUsers] = await db
+      .select({
+        count: count(),
+      })
+      .from(t.loans)
+      .where(isNull(t.loans.dateReturned));
+
+    return {
+      totalUsers: totalUsers.count,
+      borrowingUsers: borrowingUsers.count,
+    };
+  } catch (error) {
+    return { message: error.message };
+  }
+}
+
 export const usersController = {
   getAllUsers,
   getUserById,
   createUser,
   updateUser,
   deleteUser,
+  getUserStatistics,
 };

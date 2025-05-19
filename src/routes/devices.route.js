@@ -8,7 +8,6 @@ import {
 } from '../middlewares/validations/devices.validation.js';
 
 const router = express.Router();
-
 router.use(passport.authenticate('jwt', { session: false }));
 
 router.get('/', async (req, res) => {
@@ -18,6 +17,15 @@ router.get('/', async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+});
+
+router.get('/statistics', async (req, res, next) => {
+  await devicesController
+    .getDeviceStatistics()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(next);
 });
 
 router.get('/:deviceId', async (req, res) => {

@@ -1,6 +1,6 @@
 import db from '../db/db.js';
 import * as t from '../db/schema/schema.js';
-import { eq } from 'drizzle-orm';
+import { eq, count, and, isNull } from 'drizzle-orm';
 
 async function getAllDevices() {
   return await db
@@ -114,10 +114,42 @@ async function deleteDevice(params) {
   }
 }
 
+async function getDeviceStatistics() {
+  try {
+    const [totalDevices] = await db.select({ count: count() }).from(t.devices);
+
+    const [availableDevices] = await db
+      .select({ count: count() })
+      .from(t.devices)
+      .leftJoin(
+        t.loans,
+        and(eq(t.devices.id, t.loans.deviceId), isNull(t.loans.dateReturned)),
+      )
+      .where(isNull(t.loans.deviceId));
+
+    const [borrowedDevices] = await db
+      .select({ count: count() })
+      .from(t.devices)
+      .innerJoin(
+        t.loans,
+        and(eq(t.devices.id, t.loans.deviceId), isNull(t.loans.dateReturned)),
+      );
+
+    return {
+      totalDevices: totalDevices.count,
+      availableDevices: availableDevices.count,
+      borrowedDevices: borrowedDevices.count,
+    };
+  } catch (error) {
+    return { message: error.message };
+  }
+}
+
 export const devicesController = {
   getAllDevices,
   getDeviceById,
   createDevice,
   updateDevice,
   deleteDevice,
+  getDeviceStatistics,
 };
