@@ -1,6 +1,6 @@
 import db from '../db/db.js';
 import * as t from '../db/schema/schema.js';
-import { eq, and, isNull, isNotNull, count } from 'drizzle-orm';
+import { eq, sql, and, isNull, isNotNull, count } from 'drizzle-orm';
 
 async function getAllLoans() {
   return await db
@@ -201,6 +201,7 @@ async function returnDevices(body) {
 
 async function getLoanStatistics() {
   try {
+    // Giữ nguyên phần tính toán tổng số liệu
     const [totalLoans] = await db.select({ count: count() }).from(t.loans);
 
     const [unreturned] = await db
@@ -213,10 +214,57 @@ async function getLoanStatistics() {
       .from(t.loans)
       .where(isNotNull(t.loans.dateReturned));
 
+    // Thêm phần dữ liệu cho biểu đồ
+    const sixMonthsAgo = new Date();
+    sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 5);
+
+    const months = [];
+    const currentDate = new Date();
+    for (let i = 0; i < 6; i++) {
+      const date = new Date(currentDate);
+      date.setMonth(date.getMonth() - i);
+      months.unshift(date.toISOString().slice(0, 7));
+    }
+
+    const borrowData = await db
+      .select({
+        month: sql`DATE_FORMAT(${t.loans.dateReceived}, '%Y-%m')`,
+        count: count(),
+      })
+      .from(t.loans)
+      .where(sql`${t.loans.dateReceived} >= ${sixMonthsAgo}`)
+      .groupBy(sql`DATE_FORMAT(${t.loans.dateReceived}, '%Y-%m')`)
+      .orderBy(sql`DATE_FORMAT(${t.loans.dateReceived}, '%Y-%m')`);
+
+    const returnData = await db
+      .select({
+        month: sql`DATE_FORMAT(${t.loans.dateReturned}, '%Y-%m')`,
+        count: count(),
+      })
+      .from(t.loans)
+      .where(sql`${t.loans.dateReturned} >= ${sixMonthsAgo}`)
+      .groupBy(sql`DATE_FORMAT(${t.loans.dateReturned}, '%Y-%m')`)
+      .orderBy(sql`DATE_FORMAT(${t.loans.dateReturned}, '%Y-%m')`);
+
+    const borrowCounts = months.map((month) => {
+      const data = borrowData.find((d) => d.month === month);
+      return data ? data.count : 0;
+    });
+
+    const returnCounts = months.map((month) => {
+      const data = returnData.find((d) => d.month === month);
+      return data ? data.count : 0;
+    });
+
     return {
       totalLoans: totalLoans.count,
       unreturnedLoans: unreturned.count,
       returnedLoans: returned.count,
+      chartData: {
+        labels: months,
+        borrowCounts,
+        returnCounts,
+      },
     };
   } catch (error) {
     return { message: error.message };
