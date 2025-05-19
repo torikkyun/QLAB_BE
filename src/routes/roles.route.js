@@ -6,11 +6,9 @@ import {
 } from '../middlewares/validations/roles.validation.js';
 import { validate } from '../middlewares/validations/validate.js';
 import passport from 'passport';
-import { authorizeRoles } from '../middlewares/authorizeRoles.js';
 
 const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
-router.use(authorizeRoles('Admin'));
 
 router.get('/', async (req, res) => {
   const result = await rolesController.getAllRoles();

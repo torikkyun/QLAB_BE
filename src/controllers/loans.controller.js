@@ -5,14 +5,21 @@ import { eq, and, isNull } from 'drizzle-orm';
 async function getAllLoans() {
   return await db
     .select({
-      userId: t.loans.userId,
-      deviceId: t.loans.deviceId,
+      user: {
+        id: t.users.id,
+        firstName: t.users.firstName,
+        lastName: t.users.lastName,
+        email: t.users.email,
+        phone: t.users.phone,
+      },
+      device: {
+        id: t.devices.id,
+        name: t.devices.name,
+        code: t.devices.code,
+      },
       dateReceived: t.loans.dateReceived,
       dateReturned: t.loans.dateReturned,
       description: t.loans.description,
-      deviceName: t.devices.name,
-      deviceCode: t.devices.code,
-      userName: t.users.firstName,
     })
     .from(t.loans)
     .leftJoin(t.devices, eq(t.loans.deviceId, t.devices.id))
@@ -22,16 +29,25 @@ async function getAllLoans() {
 async function getLoansByUserId(params) {
   return await db
     .select({
-      userId: t.loans.userId,
-      deviceId: t.loans.deviceId,
+      user: {
+        id: t.users.id,
+        firstName: t.users.firstName,
+        lastName: t.users.lastName,
+        email: t.users.email,
+        phone: t.users.phone,
+      },
+      device: {
+        id: t.devices.id,
+        name: t.devices.name,
+        code: t.devices.code,
+      },
       dateReceived: t.loans.dateReceived,
       dateReturned: t.loans.dateReturned,
       description: t.loans.description,
-      deviceName: t.devices.name,
-      deviceCode: t.devices.code,
     })
     .from(t.loans)
     .leftJoin(t.devices, eq(t.loans.deviceId, t.devices.id))
+    .leftJoin(t.users, eq(t.loans.userId, t.users.id))
     .where(eq(t.loans.userId, params.userId));
 }
 

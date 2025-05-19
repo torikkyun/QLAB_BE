@@ -18,6 +18,10 @@ async function seedData() {
     name: 'Staff',
     description: 'Staff role',
   });
+  await db.insert(t.roles).values({
+    name: 'User',
+    description: 'User role',
+  });
 
   await db
     .insert(t.users)
