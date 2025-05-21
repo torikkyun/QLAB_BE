@@ -1,16 +1,15 @@
 {
-  "name": "qlab_be",
+  "name": "qlab-be",
   "version": "1.0.0",
   "description": "",
-  "homepage": "https://github.com/torikkyun/QLAB_BE#readme",
+  "homepage": "https://github.com/torikkyun/qlab-be#readme",
   "bugs": {
-    "url": "https://github.com/torikkyun/QLAB_BE/issues"
+    "url": "https://github.com/torikkyun/qlab-be/issues"
   },
-  "repository": "git+https://github.com/torikkyun/QLAB_BE.git",
+  "repository": "git+https://github.com/torikkyun/qlab-be.git",
   "license": "ISC",
   "author": "torikkyun <nduc42176@gmail.com>",
   "type": "module",
-  "main": "index.js",
   "scripts": {
     "start": "node ./src/app.js",
     "start:dev": "nodemon ./src/app.js",
