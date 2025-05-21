@@ -10,9 +10,13 @@ import {
 const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
 
-router.get('/', async (req, res) => {
-  const result = await loansController.getAllLoans();
-  res.json(result);
+router.get('/', async (req, res, next) => {
+  await loansController
+    .getAllLoans()
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(next);
 });
 
 router.get('/statistics', async (req, res, next) => {
@@ -24,19 +28,39 @@ router.get('/statistics', async (req, res, next) => {
     .catch(next);
 });
 
-router.get('/:userId', async (req, res) => {
-  const result = await loansController.getLoansByUserId(req.params);
-  res.json(result);
+router.get('/:userId', async (req, res, next) => {
+  await loansController
+    .getLoansByUserId(req.params)
+    .then((result) => {
+      res.json(result);
+    })
+    .catch(next);
 });
 
-router.post('/borrow', validate(borrowDevicesSchema), async (req, res) => {
-  const result = await loansController.borrowDevices(req.body);
-  res.json(result);
-});
+router.post(
+  '/borrow',
+  validate(borrowDevicesSchema),
+  async (req, res, next) => {
+    await loansController
+      .borrowDevices(req.body)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch(next);
+  },
+);
 
-router.post('/return', validate(returnDevicesSchema), async (req, res) => {
-  const result = await loansController.returnDevices(req.body);
-  res.json(result);
-});
+router.post(
+  '/return',
+  validate(returnDevicesSchema),
+  async (req, res, next) => {
+    await loansController
+      .returnDevices(req.body)
+      .then((result) => {
+        res.json(result);
+      })
+      .catch(next);
+  },
+);
 
 export default router;
