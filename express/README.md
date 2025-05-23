@@ -3,15 +3,15 @@
 ## Setup dự án
 
 ```bash
-yarn
+pnpm i
 cp .env.sample .env
 docker compose up -d
-yarn drizzle-kit push
-yarn run seeds
+pnpm drizzle-kit push
+pnpm seeds
 ```
 
 ## Chạy dự án
 
 ```bash
-yarn run start:dev
+pnpm start:dev
 ```
