@@ -55,7 +55,7 @@ router.post(
   (req, res, next) => {
     projectMembersController
       .addMultipleProjectMembers(req.params, req.body)
-      .then((data) => res.json(data))
+      .then((result) => res.json(result))
       .catch(next);
   },
 );
@@ -66,7 +66,7 @@ router.patch(
   (req, res, next) => {
     projectMembersController
       .updateProjectMember(req.params, req.body)
-      .then((data) => res.json(data))
+      .then((result) => res.json(result))
       .catch(next);
   },
 );
