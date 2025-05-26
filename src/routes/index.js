@@ -5,6 +5,7 @@ import usersRoute from './users.route.js';
 import projectsRoute from './projects.route.js';
 import devicesRoute from './devices.route.js';
 import loansRoute from './loans.route.js';
+import statisticsRoute from './statistics.route.js';
 
 const router = express.Router();
 
@@ -32,6 +33,10 @@ const defaultRoutes = [
   {
     path: '/loans',
     route: loansRoute,
+  },
+  {
+    path: '/statistics',
+    route: statisticsRoute,
   },
 ];
 

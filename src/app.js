@@ -13,11 +13,6 @@ passport.use(jwtStrategy);
 app.use(cors());
 app.options('*', cors());
 
-app.use((err, req, res) => {
-  console.error(err.stack);
-  res.status(500).json({ message: 'Có lỗi xảy ra!' });
-});
-
 app.use('/api', router);
 
 app.listen(3000, () => {
