@@ -50,18 +50,15 @@ async function getStatistics() {
       );
 
     return {
-      // Dữ liệu cho biểu đồ cột (deviceChart)
       deviceStats: {
         totalDevices: totalDevices.count,
         availableDevices: availableDevices.count,
         borrowedDevices: borrowedDevices.count,
       },
-      // Dữ liệu cho biểu đồ tròn (userChart)
       userStats: {
         totalUsers: totalUsers.count,
         borrowingUsers: borrowingUsers.count,
       },
-      // Dữ liệu cho biểu đồ đường (loanChart)
       monthlyLoans: monthlyLoans.map((loan) => ({
         month: `${loan.month}/${loan.year}`,
         count: Number(loan.count),

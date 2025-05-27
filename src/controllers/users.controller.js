@@ -4,13 +4,31 @@ import { eq, count, isNull } from 'drizzle-orm';
 import bcrypt from 'bcryptjs';
 
 async function getAllUsers() {
-  return await db.select().from(t.users);
+  return await db
+    .select({
+      id: t.users.id,
+      roleName: t.roles.name,
+      firstName: t.users.firstName,
+      lastName: t.users.lastName,
+      email: t.users.email,
+      phone: t.users.phone,
+    })
+    .from(t.users)
+    .leftJoin(t.roles, eq(t.users.roleId, t.roles.id));
 }
 
 async function getUserById(params) {
   const [result] = await db
-    .select()
+    .select({
+      id: t.users.id,
+      roleName: t.roles.name,
+      firstName: t.users.firstName,
+      lastName: t.users.lastName,
+      email: t.users.email,
+      phone: t.users.phone,
+    })
     .from(t.users)
+    .leftJoin(t.roles, eq(t.users.roleId, t.roles.id))
     .where(eq(t.users.id, params.userId));
   return result;
 }
