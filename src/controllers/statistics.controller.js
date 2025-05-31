@@ -2,6 +2,7 @@ import db from '../db/db.js';
 import * as t from '../db/schema/schema.js';
 import { eq, count, and, isNull, sql } from 'drizzle-orm';
 
+// TODO: tối ưu lại hàm này
 async function getStatistics() {
   try {
     const [totalDevices] = await db.select({ count: count() }).from(t.devices);

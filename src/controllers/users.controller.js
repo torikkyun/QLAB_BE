@@ -65,6 +65,7 @@ async function deleteUser(params) {
   return { message: 'User deleted' };
 }
 
+// TODO: chuyển sang controller khác
 async function getUserStatistics() {
   try {
     const [totalUsers] = await db.select({ count: count() }).from(t.users);

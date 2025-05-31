@@ -15,45 +15,57 @@ import {
 const router = express.Router();
 router.use(passport.authenticate('jwt', { session: false }));
 
-router.get('/', async (req, res) => {
-  const result = await projectsController.getAllProjects();
-  res.json(result);
+router.get('/', async (req, res, next) => {
+  await projectsController
+    .getAllProjects()
+    .then((result) => res.json(result))
+    .catch(next);
 });
 
-router.get('/:projectId', async (req, res) => {
-  const result = await projectsController.getProjectById(req.params);
-  res.json(result);
+router.get('/:projectId', async (req, res, next) => {
+  await projectsController
+    .getProjectById(req.params)
+    .then((result) => res.json(result))
+    .catch(next);
 });
 
-router.post('/', validate(createProjectSchema), async (req, res) => {
-  const result = await projectsController.createProject(req.body);
-  res.json(result);
+router.post('/', validate(createProjectSchema), async (req, res, next) => {
+  await projectsController
+    .createProject(req.body)
+    .then((result) => res.json(result))
+    .catch(next);
 });
 
-router.patch('/:projectId', validate(updateProjectSchema), async (req, res) => {
-  const result = await projectsController.updateProject(req.params, req.body);
-  res.json(result);
-});
+router.patch(
+  '/:projectId',
+  validate(updateProjectSchema),
+  async (req, res, next) => {
+    await projectsController
+      .updateProject(req.params, req.body)
+      .then((result) => res.json(result))
+      .catch(next);
+  },
+);
 
-router.delete('/:projectId', async (req, res) => {
-  const result = await projectsController.deleteProject(req.params);
-  res.json(result);
+router.delete('/:projectId', async (req, res, next) => {
+  await projectsController
+    .deleteProject(req.params)
+    .then((result) => res.json(result))
+    .catch(next);
 });
 
 router.get('/:projectId/members', async (req, res, next) => {
-  projectMembersController
+  await projectMembersController
     .getProjectMembers(req.params)
-    .then((result) => {
-      res.json(result);
-    })
+    .then((result) => res.json(result))
     .catch(next);
 });
 
 router.post(
   '/:projectId/members',
   validate(addMultipleProjectMembersSchema),
-  (req, res, next) => {
-    projectMembersController
+  async (req, res, next) => {
+    await projectMembersController
       .addMultipleProjectMembers(req.params, req.body)
       .then((result) => res.json(result))
       .catch(next);
@@ -63,8 +75,8 @@ router.post(
 router.patch(
   '/:projectId/:userId',
   validate(updateProjectMemberSchema),
-  (req, res, next) => {
-    projectMembersController
+  async (req, res, next) => {
+    await projectMembersController
       .updateProjectMember(req.params, req.body)
       .then((result) => res.json(result))
       .catch(next);

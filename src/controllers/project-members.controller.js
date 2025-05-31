@@ -65,6 +65,7 @@ async function addProjectMember(body) {
   }
 }
 
+// TODO: tối ưu lại hàm này
 async function addMultipleProjectMembers(params, body) {
   try {
     const [projectExists] = await db

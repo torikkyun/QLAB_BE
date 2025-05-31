@@ -51,6 +51,7 @@ async function getLoansByUserId(params) {
     .where(eq(t.loans.userId, params.userId));
 }
 
+// TODO: tối ưu lại hàm này
 async function borrowDevices(body) {
   try {
     const { userId, devices } = body;
@@ -199,6 +200,7 @@ async function returnDevices(body) {
   }
 }
 
+// TODO: chuyển sang controller khác
 async function getLoanStatistics() {
   try {
     // Giữ nguyên phần tính toán tổng số liệu

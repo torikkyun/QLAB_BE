@@ -114,6 +114,7 @@ async function deleteDevice(params) {
   }
 }
 
+// TODO: chuyển sang controller khác
 async function getDeviceStatistics() {
   try {
     const [totalDevices] = await db.select({ count: count() }).from(t.devices);

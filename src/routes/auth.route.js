@@ -8,14 +8,18 @@ import {
 
 const router = express.Router();
 
-router.post('/login', validate(loginSchema), async (req, res) => {
-  const result = await authController.login(req.body);
-  res.json(result);
+router.post('/login', validate(loginSchema), async (req, res, next) => {
+  await authController
+    .login(req.body)
+    .then((result) => res.json(result))
+    .catch(next);
 });
 
-router.post('/register', validate(registerSchema), async (req, res) => {
-  const result = await authController.register(req.body);
-  res.json(result);
+router.post('/register', validate(registerSchema), async (req, res, next) => {
+  await authController
+    .register(req.body)
+    .then((result) => res.json(result))
+    .then(next);
 });
 
 export default router;

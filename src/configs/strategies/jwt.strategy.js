@@ -2,6 +2,7 @@ import { Strategy as JwtStrategy, ExtractJwt } from 'passport-jwt';
 import db from '../../db/db.js';
 import * as t from '../../db/schema/schema.js';
 import { eq } from 'drizzle-orm';
+import 'dotenv/config';
 
 const opts = {
   jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),

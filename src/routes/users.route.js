@@ -31,8 +31,8 @@ router.get('/:userId', async (req, res, next) => {
     .catch(next);
 });
 
-router.post('/', validate(createUserSchema), (req, res, next) => {
-  usersController
+router.post('/', validate(createUserSchema), async (req, res, next) => {
+  await usersController
     .createUser(req.body)
     .then((result) => res.json(result))
     .catch(next);

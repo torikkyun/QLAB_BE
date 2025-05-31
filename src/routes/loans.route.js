@@ -13,27 +13,22 @@ router.use(passport.authenticate('jwt', { session: false }));
 router.get('/', async (req, res, next) => {
   await loansController
     .getAllLoans()
-    .then((result) => {
-      res.json(result);
-    })
+    .then((result) => res.json(result))
     .catch(next);
 });
 
+// TODO: chuyển sang route khác
 router.get('/statistics', async (req, res, next) => {
   await loansController
     .getLoanStatistics()
-    .then((result) => {
-      res.json(result);
-    })
+    .then((result) => res.json(result))
     .catch(next);
 });
 
 router.get('/:userId', async (req, res, next) => {
   await loansController
     .getLoansByUserId(req.params)
-    .then((result) => {
-      res.json(result);
-    })
+    .then((result) => res.json(result))
     .catch(next);
 });
 
@@ -43,9 +38,7 @@ router.post(
   async (req, res, next) => {
     await loansController
       .borrowDevices(req.body)
-      .then((result) => {
-        res.json(result);
-      })
+      .then((result) => res.json(result))
       .catch(next);
   },
 );
@@ -56,9 +49,7 @@ router.post(
   async (req, res, next) => {
     await loansController
       .returnDevices(req.body)
-      .then((result) => {
-        res.json(result);
-      })
+      .then((result) => res.json(result))
       .catch(next);
   },
 );
